@@ -1,0 +1,6 @@
+sp {hello-world
+	(state <s> ^type state)
+	-->
+	(write |Hello World|)
+	(halt)
+}

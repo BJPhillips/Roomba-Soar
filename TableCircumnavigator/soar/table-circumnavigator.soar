@@ -1,0 +1,181 @@
+sp {circum*propose*initialize
+    (state <s>  ^type state
+                -^name)
+    -->
+    (<s> ^operator <o> +)
+    (<o> ^name initialize)}
+
+# initialise
+# Creates a last-action augmentation
+#   This is used so that drive commands are only sent once. For example, 
+#   the move-forwards operator issues a drive command and then sets last-action
+#   to move-forwards. Another move-forward operator will not be selected again
+#   until some other action has been taken.
+# Creates a wait-counter augmentation
+#   This is used so that there can be consecutive instantiations of the wait
+#   operator. Each application of the wait operator increments the wait-counter.
+#   This changes the state so that a new instantiation of the wait operator
+#   can be proposed immediately.
+sp {circum*apply*initialize
+    (state <s>  ^operator <o>)
+    (<o> ^name initialize)
+    -->
+    (<s> ^name circum
+         ^last-action nothing
+         ^wait-counter 0)
+}
+
+# emergency-halt is proposed whenever one of the wheels drops. It is given the
+# best preference to ensure it is selected.
+sp {circum*propose*emergency-halt
+    (state <s>  ^name circum
+                ^io.input-link.wheel-drop <wd>)
+    (<wd> ^value > 0)
+    (<wd> ^location <l>)
+    -->
+    (<s> ^operator <o> + >)
+    (<o> ^name emergency-halt)
+    (write |EMERGENCY HALT PROPOSED. WHEEL-DROP | <l>) 
+}
+
+# emergency-halt issues a drive command to stop the Roomba and halts the agent.
+sp {circum*apply*emergency-halt
+    (state <s>  ^name circum
+                ^operator <o>
+                ^io.output-link <out>)
+    (<o>    ^name emergency-halt)
+    -->
+    (<out>  ^drive <d>)
+    (<d>    ^velocity 0
+            ^radius 0)
+    (write |EMERGENCY HALT APPLIED|)
+    (halt)
+}
+
+# move-forwards is proposed as a default action - provided the last action
+# was not itself a move-forwards.
+sp {circum*propose*move-forwards
+    (state <s>  ^name circum
+                ^last-action <> move-forwards)
+    -->
+    (<s> ^operator <o> +)
+    (<o> ^name move-forwards)
+}
+
+# move-forwards is rejected is any of the cliff sensors are triggered.
+sp {circum*reject*cliff*move-forwards
+    (state <s>  ^name circum
+                ^operator <o> +
+                ^io.input-link <in>)
+    (<in>   ^cliff.value > 0)
+    (<o>    ^name move-forwards)
+    -->
+    (<s>    ^operator <o> -)
+}   
+
+# move-forwards is rejected is any of the bump sensors are triggered.
+sp {circum*reject*bump*move-forwards
+    (state <s>  ^name circum
+                ^operator <o> +
+                ^io.input-link <in>)
+    (<in>   ^bump.value > 0)
+    (<o>    ^name move-forwards)
+    -->
+    (<s>    ^operator <o> -)
+} 
+                
+# move-forwards issues a drive command to the Roomba.
+# It also updates (removes and replaces) the record of the last-action.
+sp {circum*apply*move-forwards
+    (state <s>  ^name circum
+                ^operator <o>
+                ^io.output-link <out>)
+    (<o>    ^name move-forwards)
+    (<s>    ^last-action <l>)
+    -->
+    (<out>  ^drive <d>)
+    (<d>    ^velocity 100
+            ^radius 32767)
+    (<s>    ^last-action <l> -)
+    (<s>    ^last-action move-forwards)
+}
+                
+# turn-clockwise is proposed whenever a cliff sensor is triggered - provided 
+# the last action was not turn-clockwise.
+sp {circum*propose*cliff*turn-clockwise
+    (state <s>  ^name circum
+                ^last-action <> turn-clockwise
+                ^io.input-link <in>)
+    (<in> ^cliff.value > 0)
+    -->
+    (<s> ^operator <o> + =)
+    (<o> ^name turn-clockwise)
+}
+
+# turn-clockwise is also proposed whenever a bump sensor is triggered - provided 
+# the last action was not turn-clockwise.
+sp {circum*propose*bump*turn-clockwise
+    (state <s>  ^name circum
+                ^last-action <> turn-clockwise
+                ^io.input-link <in>)
+    (<in> ^bump.value > 0)
+    -->
+    (<s> ^operator <o> + =)
+    (<o> ^name turn-clockwise)
+}
+
+# turn-clockwise issues a drive command to the Roomba. 
+# It also updates (removes and replaces) the record of the last-action.
+sp {circum*apply*turn-clockwise
+    (state <s>  ^name circum
+                ^operator <o>
+                ^io.output-link <out>)
+    (<o>    ^name turn-clockwise)
+    (<s>    ^last-action <l>)
+    -->
+    (<out>  ^drive <d>)
+    (<d>    ^velocity 100
+            ^radius -1)
+    (<s>    ^last-action <l> -)
+    (<s>    ^last-action turn-clockwise)
+}
+
+# remove-drive removes completed drive commands from the output-link.
+# This rule needs o-support as the drive commands themselves were created
+# by operator applications. Hence we match on the operator (but don't use it).
+# It is assumed that the io system adds a (^status complete) augmentation to
+# completed drive commands.
+sp {circum*apply*remove-drive
+   (state <s>   ^name circum
+                ^operator <o>
+                ^io.output-link <out>)
+   (<out>   ^drive <d>)
+   (<d>     ^status complete)
+-->
+   (<out>   ^drive <d> -)}
+
+# wait is proposed whenever the action is not 'nothing': in other words, once
+# a drive command has been issued to the Roomba. We test the wait-counter so 
+# that a new instance of the wait operator can be created for every new
+# value of the wait-counter.
+sp {circum*propose*wait
+    (state <s>  ^name circum
+                ^last-action <> nothing
+                ^wait-counter <w>)
+    -->
+    (<s>    ^operator <o> + <)
+    (<o>    ^name wait)         
+}
+
+# wait does nothing except increment the value of the wait-counter.
+sp {circum*apply*wait
+    (state <s>  ^name circum
+                ^operator <o>
+                ^wait-counter <w>)
+    (<o>        ^name wait)
+    -->
+    (<s>    ^wait-counter <w> -)
+    (<s>    ^wait-counter (+ <w> 1))
+}
+
+                

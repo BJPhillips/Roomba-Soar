@@ -1,0 +1,20 @@
+sp {simple-test*propose*initialize
+    (state <s>  ^type state
+                -^name)
+    -->
+    (<s> ^operator <o> +)
+    (<o> ^name initialize)}
+
+sp {simple-test*apply*initialize
+    (state <s>  ^operator <o>
+                ^io <io>)
+    (<o> ^name initialize)
+    (<io> ^output-link <out>)
+    
+    -->
+    (<s> ^name simple-test)
+    (<out> ^drive <c>)
+    (<c> ^velocity 200
+         ^radius 32768)
+}
+            
