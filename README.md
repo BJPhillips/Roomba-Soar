@@ -32,7 +32,7 @@ Software
 
 The software, including the latest version of the Roomba interface
 layer, is provided in the [TableCircumnavigator](TableCircumnavigator)
-(obstacle avoiding) example. A brief overview is provided below. More details can be found in the [Javadoc](TableCircumnavigator/dist/javadoc/index.html).
+(obstacle avoiding) example. A brief overview is provided below. More details can be found in the [Javadoc](TableCircumnavigator/dist/javadoc/).
 
 The [RoombaIF](TableCircumnavigator/dist/javadoc/roombaif/package-summary.html)
 abstract base class provides methods to open and close a connection to
