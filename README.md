@@ -12,7 +12,7 @@ the photograph below, a desktop connected via WiFi.
 ![](www/media/RoombaSoar.jpg)
 
 To demonstrate the system, a trivial obstacle avoiding agent has been
-developed ([video](www/media/TableCircumnavigatorExample.mov)).
+developed ([video](http://youtu.be/_xIfJ1AbCM4)).
 
 Hardware Requirements
 ---------------------
@@ -32,7 +32,7 @@ Software
 
 The software, including the latest version of the Roomba interface
 layer, is provided in the [TableCircumnavigator](TableCircumnavigator)
-(obstacle avoiding) example.
+(obstacle avoiding) example. A brief overview is provided below. More details can be found in the [Javadoc](www/javadoc/index.html).
 
 The [RoombaIF](TableCircumnavigator/src/roombaif/RoombaIF.java)
 abstract base class provides methods to open and close a connection to
@@ -46,8 +46,7 @@ Two implementations of the RoombaIF class are included: one that uses
 the
 [Java Simple Serial Connector](https://github.com/scream3r/java-simple-serial-connector)
 to establish a connection with an actual Roomba; and one that
-demonstrates a trivial simulated Roomba. Documentation is provided in
-the [Javadoc](www/javadoc/index.html).
+demonstrates a trivial simulated Roomba.
 
 [TableCircumnavigator.java](TableCircumnavigator/src/tablecircumnavigator/TableCircumnavigator.java)
 demonstates how to use JSoar SoarBeans to receive output commands from
