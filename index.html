@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Roomba-Soar : Control an iRobot Roomba 595 with a Soar agent running under a Jsoar kernel." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Roomba-Soar</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/CHiPTec/Roomba-Soar">View on GitHub</a>
+
+          <h1 id="project_title">Roomba-Soar</h1>
+          <h2 id="project_tagline">Control an iRobot Roomba 595 with a Soar agent running under a Jsoar kernel.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/CHiPTec/Roomba-Soar/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/CHiPTec/Roomba-Soar/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="roomba-soar" class="anchor" href="#roomba-soar"><span class="octicon octicon-link"></span></a>Roomba-Soar</h1>
+
+<p>Control an <a href="http://www.irobot.com">iRobot Roomba</a> 595 with a
+<a href="http://sitemaker.umich.edu/soar/home">Soar</a> agent running under a
+<a href="https://github.com/soartech/jsoar">Jsoar</a> kernel.</p>
+
+<p>The kernel and a Roomba interface layer run under Java on a host
+machine. The host might be a netbook mounted on the Roomba, or as in
+the photograph below, a desktop connected via WiFi.</p>
+
+<p><img src="www/media/RoombaSoar.jpg" alt=""></p>
+
+<p>To demonstrate the system, a trivial obstacle avoiding agent has been
+developed (<a href="http://youtu.be/_xIfJ1AbCM4">video</a>).</p>
+
+<h2>
+<a name="hardware-requirements" class="anchor" href="#hardware-requirements"><span class="octicon octicon-link"></span></a>Hardware Requirements</h2>
+
+<p>The hardware requirements, along with approximate costs, are shown in
+the <a href="www/media/Roomba-SoarSystemDiagram.pdf">system diagram</a>.</p>
+
+<p><img src="www/media/Roomba-SoarSystemDiagram.png" alt=""></p>
+
+<p>Note that for a system with the host mounted on the Roomba (e.g. using
+a netbook), the Wireless USB Sharing Station is not required and the
+host is connected directly to the Roomba via the FTDI Cable and Custom
+Data Cable.</p>
+
+<h2>
+<a name="software" class="anchor" href="#software"><span class="octicon octicon-link"></span></a>Software</h2>
+
+<p>The software, including the latest version of the Roomba interface
+layer, is provided in the <a href="TableCircumnavigator">TableCircumnavigator</a>
+(obstacle avoiding) example. A brief overview is provided below. More details can be found in the <a href="TableCircumnavigator/dist/javadoc/index.html">Javadoc</a>.</p>
+
+<p>The <a href="TableCircumnavigator/dist/javadoc/roombaif/package-summary.html">RoombaIF</a>
+abstract base class provides methods to open and close a connection to
+the Roomba and a mechanism to request the Roomba stream any subset of
+its sensor data. (The sensors are described in the
+<a href="www/iRobot_Roomba_500_Open_Interface_Spec.pdf">iRobot Roomba 500 Open Interface (OI) Specification</a>). Methods
+to issue motor commands are available and it should be straightforward
+to add new methods for other commands.</p>
+
+<p>Two implementations of the RoombaIF class are included: one that uses
+the
+<a href="https://github.com/scream3r/java-simple-serial-connector">Java Simple Serial Connector</a>
+to establish a connection with an actual Roomba; and one that
+demonstrates a trivial simulated Roomba.</p>
+
+<p><a href="TableCircumnavigator/src/tablecircumnavigator/TableCircumnavigator.java">TableCircumnavigator.java</a>
+demonstates how to use JSoar SoarBeans to receive output commands from
+the agent's I/O link and JSoar Quick Input to send sensor data to the
+I/O link.</p>
+
+<p>The TableCircumnavigator
+<a href="TableCircumnavigator/soar/table-circumnavigator.soar">Soar agent</a>
+merely moves the Roomba forward slowly until it is obstructed, pivots
+clockwise until the obstruction is cleared, and continues moving
+forwards.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Roomba-Soar maintained by <a href="https://github.com/CHiPTec">CHiPTec</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
