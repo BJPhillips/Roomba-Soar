@@ -34,10 +34,11 @@ The software, including the latest version of the Roomba interface
 layer, is provided in the [TableCircumnavigator](TableCircumnavigator)
 (obstacle avoiding) example.
 
-The RoombaIF abstract base class provides methods to open and close a
-connection to the Roomba and a mechanism to request the Roomba stream
-any subset of its sensor data. (The sensors are described in the
-[iRobot Roomba 500 Open Interface (OI) Specification](www/iRobot_Roomba_500_Open_Interface_Spec.pdf). Methods
+The [RoombaIF](TableCircumnavigator/src/roombaif/RoombaIF.java)
+abstract base class provides methods to open and close a connection to
+the Roomba and a mechanism to request the Roomba stream any subset of
+its sensor data. (The sensors are described in the
+[iRobot Roomba 500 Open Interface (OI) Specification](www/iRobot_Roomba_500_Open_Interface_Spec.pdf)). Methods
 to issue motor commands are available and it should be straightforward
 to add new methods for other commands.
 
@@ -48,4 +49,14 @@ to establish a connection with an actual Roomba; and one that
 demonstrates a trivial simulated Roomba. Documentation is provided in
 the [Javadoc](www/javadoc/index.html).
 
+[TableCircumnavigator.java](TableCircumnavigator/src/tablecircumnavigator/TableCircumnavigator.java)
+demonstates how to use JSoar SoarBeans to receive output commands from
+the agent's I/O link and JSoar Quick Input to send sensor data to the
+I/O link.
 
+The TableCircumnavigator
+[Soar agent](TableCircumnavigator/soar/table-circumnavigator.soar)
+merely moves the Roomba forward slowly until it is obstructed, pivots
+clockwise until the obstruction is cleared, and continues moving
+forwards.
+ 
