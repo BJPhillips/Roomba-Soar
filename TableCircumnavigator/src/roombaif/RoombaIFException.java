@@ -1,5 +1,9 @@
 package roombaif;
 
+/**
+ * 
+ * @author phillips
+ */
 public class RoombaIFException extends Exception {
 
     final public static String TYPE_NOT_OPEN = "Roomba interface not open";
@@ -12,7 +16,7 @@ public class RoombaIFException extends Exception {
      * Constructs an instance of
      * <code>RoombaIFException</code> with the specified detail message.
      *
-     * @param msg the detail message.
+     * @param exceptionType 
      */
     public RoombaIFException(String exceptionType) {
         super(exceptionType);

@@ -68,7 +68,6 @@ public class RoombaSerialIF extends RoombaIF {
      * Open the serial interface to the Roomba. We place the Roomba into 
      * Safe or Full control mode and start the sensor data streaming.
      *
-     * @throws SerialPortException
      */
     @Override
     public void openIF(boolean safeMode) throws RoombaIFException {
@@ -121,6 +120,11 @@ public class RoombaSerialIF extends RoombaIF {
         isOpened = true;
     }
 
+    /**
+     * Close the interface to the Roomba and clean up resources.
+     * 
+     * @throws RoombaIFException 
+     */
     @Override
     public void closeIF() throws RoombaIFException {
         checkIsOpened("closeIF");

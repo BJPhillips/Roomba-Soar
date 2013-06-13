@@ -9,6 +9,15 @@ import org.jsoar.kernel.io.beans.*;
 
 import roombaif.*;
 
+/**
+ * This simple example demonstrates how to:
+ * + launch an agent;
+ * + connect to a Roomba;
+ * + connect the Roomba's sensors to the agent's input link using Quick Memory;
+ * + and send commands from the agent's output link to the Roomba using SoarBeans.
+ * 
+ * @author Braden Phillips
+ */
 public class TableCircumnavigator {
 
     static private RoombaIF roomba;             // An interface to a Roomba
@@ -18,6 +27,10 @@ public class TableCircumnavigator {
 
     /**
      * @param args the command line arguments
+     * @throws SoarException
+     * @throws InterruptedException
+     * @throws java.io.IOException 
+     * @throws RoombaIFException  
      */
     public static void main(String[] args)
             throws SoarException, InterruptedException, java.io.IOException,

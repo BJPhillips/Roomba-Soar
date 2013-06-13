@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package roombaif;
 
 /**
@@ -25,7 +21,7 @@ public class RoombaDummyIF extends RoombaIF {
 
     
     /**
-     * Open the serial interface to the Roomba. 
+     * Open the (dummy) serial interface to the Roomba. 
      *
      * @param safeMode ignored for the dummy interface
      * @throws RoombaIFException
@@ -45,6 +41,11 @@ public class RoombaDummyIF extends RoombaIF {
         System.out.println("Dummy port opened.");
     }
 
+    /**
+     * Close the (dummy) serial interface to the Roomba.
+     * 
+     * @throws RoombaIFException 
+     */
     @Override
     public void closeIF() throws RoombaIFException {
         checkIsOpened("closeIF");
@@ -53,6 +54,13 @@ public class RoombaDummyIF extends RoombaIF {
         System.out.println("Dummy port closed.");
     }
 
+    /**
+     * A dummy drive command that just prints its parameters.
+     * 
+     * @param velocity
+     * @param radius
+     * @throws RoombaIFException 
+     */
     @Override
     public void driveCommand(short velocity, short radius)
             throws RoombaIFException {
@@ -62,6 +70,16 @@ public class RoombaDummyIF extends RoombaIF {
         System.out.println("    Radius: " + radius);
     }
 
+    /**
+     * A dummy motors command that just prints its parameters.    
+     * 
+     * @param sideBrush
+     * @param sideBrushClockwise
+     * @param mainBrush
+     * @param mainBrushOutward
+     * @param vacuum
+     * @throws RoombaIFException 
+     */
     @Override
     public void motorsCommand(boolean sideBrush, boolean sideBrushClockwise,
             boolean mainBrush, boolean mainBrushOutward, boolean vacuum)
@@ -75,6 +93,12 @@ public class RoombaDummyIF extends RoombaIF {
         System.out.println("    Vacuum: " + vacuum);
     }
 
+    /**
+     * Buffer sensor values and indicate to the sensor packet listener that new
+     * values have arrived.
+     * 
+     * @param values 
+     */
     protected synchronized void setSensorData(int[] values) {
         if (values.length != sensorData.length) {
             return;

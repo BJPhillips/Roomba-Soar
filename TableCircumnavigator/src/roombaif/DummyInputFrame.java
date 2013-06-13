@@ -21,6 +21,7 @@ public class DummyInputFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form DummyInputFrame for the roombaDummyIF
+     * @param roombaDummyIF 
      */
     public DummyInputFrame(RoombaDummyIF roombaDummyIF) {
         initComponents();

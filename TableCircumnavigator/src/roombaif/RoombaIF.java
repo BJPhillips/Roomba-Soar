@@ -30,7 +30,8 @@ public abstract class RoombaIF {
     protected boolean sensorPacketListenerAdded = false;
 
     /**
-     *
+     * Constructor
+     * 
      * @param portName 
      * @param sensorPacketsRequested the sensor packets to stream from the
      * Roomba
@@ -43,21 +44,40 @@ public abstract class RoombaIF {
         sensorDataIsValid = new AtomicBoolean(false);
     }
 
-    /* Member access functions */
+    /**
+     * Get the name of the port passed to constructor.
+     * 
+     * @return portName
+     */
     public String getPortName() {
         return portName;
     }
-
+    
+    /**
+     * Check whether the port has been opened.
+     * 
+     * @return true if the port is open
+     */
     public boolean checkIsOpened() {
         return isOpened;
     }
 
+    /**
+     * Get the list of sensor packets requested
+     * 
+     * @return SensorPacket[]
+     */
     public SensorPacket[] getSensorPacketsRequested() {
         SensorPacket[] result = java.util.Arrays.copyOf(sensorPacketsRequested,
                 sensorPacketsRequested.length);
         return result;
     }
 
+    /**
+     * Check whether the buffered sensor data is valid.
+     * 
+     * @return true if the sensor data in the buffer is valid
+     */
     public boolean checkSensorDataIsValid() {
         return sensorDataIsValid.get();
     }
@@ -91,7 +111,7 @@ public abstract class RoombaIF {
      *
      * Must set isOpened to false.
      *
-     * @throws SerialPortException
+     * @throws RoombaIFException 
      */
     public abstract void closeIF() throws RoombaIFException;
 
@@ -139,6 +159,11 @@ public abstract class RoombaIF {
     }
 
     /* Protected helper functions */
+    /**
+     * 
+     * @param methodName
+     * @throws RoombaIFException
+     */
     protected void checkIsOpened(String methodName) throws RoombaIFException {
         if (!isOpened) {
             throw new RoombaIFException(RoombaIFException.TYPE_NOT_OPEN +

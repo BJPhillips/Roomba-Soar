@@ -2,7 +2,7 @@ package tablecircumnavigator;
 
 /**
  *
- * @author phillips
+ * @author Braden Phillips
  */
 public class DriveCommand {
         public int velocity;
